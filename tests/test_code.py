@@ -4,10 +4,27 @@ from src.widget import mask_account_card, get_data
 
 
 def test_get_mask_card_number():
-    assert get_mask_card_number('1234567890123456') == '************3456'
-    assert get_mask_card_number('1234') == '1234'
+    assert get_mask_card_number('1234567812345678') == '1234 56** **** 5678'
+    # assert get_mask_card_number('1234') == '1234'
+    # assert get_mask_card_number('') == 'Invalid input'
+    # assert get_mask_card_number('************3456') != '7000 79** **** 6361'
+    # assert get_mask_card_number(1234567890123456) == 'Invalid input'
+    # assert get_mask_card_number(None) == 'Invalid input'
+    # assert get_mask_card_number('12345678901234567890') == '******************7890'
+    assert get_mask_card_number('1234') == 'Invalid card number length'
+    assert get_mask_card_number('123456781234567890') == 'Invalid card number length'
+    # Тестирование с пустой строкой
     assert get_mask_card_number('') == 'Invalid input'
-
+    # Тестирование с нестроковым входом
+    assert get_mask_card_number(1234567812345678) == 'Invalid input'
+    # Тестирование с None
+    assert get_mask_card_number(None) == 'Invalid input'
+    # Тестирование с номером карты, состоящим только из символов
+    assert get_mask_card_number('************') == 'Invalid card number length'
+    # Тестирование с номером карты, содержащим пробелы и спецсимволы
+    assert get_mask_card_number('1234 5678-1234!5678') == '1234 56** **** 5678'
+    # Тестирование с номером карты, состоящим из цифр и пробелов
+    assert get_mask_card_number('123456 781234 5678') == '1234 56** **** 5678'
 
 def test_get_mask_account():
     assert get_mask_account('12345678') == '**5678'
@@ -15,7 +32,7 @@ def test_get_mask_account():
 
 
 def test_mask_account_card():
-    assert mask_account_card('1234567890123456') == '************3456'
+    assert mask_account_card('1234567890123456') == '1234 56** **** 3456'
     assert mask_account_card('12345678') == '**5678'
     assert mask_account_card('123') == 'Invalid input'
 
