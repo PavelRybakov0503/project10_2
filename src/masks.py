@@ -1,9 +1,24 @@
+# def get_mask_card_number(card_number: str) -> str:
+#     """Принимает на вход номер карты в виде числа и
+#     возвращает маску номера по правилу XXXX XX** **** XXXX"""
+#     if not card_number or not isinstance(card_number, str):
+#         return "Invalid input"
+#     return '*' * (len(card_number) - 4) + card_number[-4:]
+
+
 def get_mask_card_number(card_number: str) -> str:
     """Принимает на вход номер карты в виде числа и
     возвращает маску номера по правилу XXXX XX** **** XXXX"""
     if not card_number or not isinstance(card_number, str):
         return "Invalid input"
-    return '*' * (len(card_number) - 4) + card_number[-4:]
+
+    # Удаляем все нецифровые символы
+    card_number = ''.join(filter(str.isdigit, card_number))
+
+    if len(card_number) != 16:
+        return "Invalid card number length"
+
+    return f"{card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
 
 
 # def get_mask_account(account_number: str) -> str:
