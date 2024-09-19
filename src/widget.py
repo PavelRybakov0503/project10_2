@@ -1,23 +1,22 @@
-from src.masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_card_number
+from src.masks import get_mask_account
 
 
-def mask_account_card(input_data: str) -> str:
-    '''Принимает на вход строку формата'''
-    if len(input_data) == 16:  # Предполагаем, что номер карты составляет 16 цифр
-        return get_mask_card_number(input_data)
-    elif len(input_data) >= 8:  # Предполагаем, что номер счета состоит из 8 и более цифр
-        return get_mask_account(input_data)
-    else:
-        return "Invalid input"
+def mask_account_card(type_and_number: str) -> str:
+    """Функция принимает тип и номер карты или счета и возвращает замаскированный номер"""
+    divide_string = type_and_number.split(" ")
+    type_card = []
+
+    for i in divide_string:
+        if i == "Счет":
+            return f"{divide_string[0]} {get_mask_account(divide_string[-1])}"
+        else:
+            type_card.append(i)
+
+    type_card_name = " ".join(type_card[:-1])
+    return f"{type_card_name} {get_mask_card_number(divide_string[-1])}"
 
 
-def get_data(date_string: str) -> str:
-    '''Функция преобразования даты'''
-    if not date_string:
-        return "Invalid date"
-        # Пробуем преобразовать строку в дату
-    try:
-        from datetime import datetime
-        return datetime.strptime(date_string, '%Y-%m-%d').strftime('%d-%m-%Y')
-    except ValueError:
-        return "Invalid date format"
+def get_date(format_data: str) -> str:
+    """Функция преобразует формат даты"""
+    return f"{format_data[8:10]}.{format_data[5:7]}.{format_data[:4]}"
