@@ -6,13 +6,12 @@ from typing import Any
 from src.external_api import currency_conversion
 
 
-def financial_transactions(path: str) -> list:
+def financial_transactions(path: str) -> Any:
     """Функция принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях."""
     try:
         with open(path, encoding="utf-8") as financial_file:
             try:
                 transactions = json.load(financial_file)
-  #              print(f'Загруженные транзакции:{transactions}')
             except JSONDecodeError:
                 return []
         if not isinstance(transactions, list):
