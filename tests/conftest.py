@@ -1,8 +1,12 @@
+from typing import Any
+
 import pytest
 
 
 @pytest.fixture
-def sample_data():
+def sample_data() -> list[dict[str, Any]]:
+    """Анотация
+    """
     return [
         {'state': 'active', 'date': '2023-01-01'},
         {'state': 'inactive', 'date': '2023-01-02'},

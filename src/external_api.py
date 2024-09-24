@@ -1,13 +1,14 @@
-import os
 import json
+import os
 from locale import currency
+from typing import Optional
 
 import requests
 
 values = os.getenv("PASSWORD")
 
 
-def currency_conversion(transaction_data: list, API_KEY=None) -> float:
+def currency_conversion(transaction_data: list, API_KEY: Optional[str] = None) -> float:
     """Функция конвертации       """
     code = transaction_data[0].get("operationAmount").get("currency").get("code")
     amount = transaction_data[0].get("operationAmount").get("amount")
