@@ -1,14 +1,17 @@
-from typing import Iterator, List
+from typing import Any, Dict, Generator, Iterator, List
 
 
-def filter_by_currency(transaction_list: List[dict], name: str) -> Iterator[dict]:
+def filter_by_currency(transaction_list: List[Dict[str, Any]], name: str) -> Iterator[Dict[str, Any]]:
     """Функция выдает список трансакций с определенной валютой"""
     for transaction in transaction_list:
-        if transaction.get("operationAmount").get("currency").get("name") == name:
-            yield transaction
+        operation_amount = transaction.get("operationAmount")
+        if operation_amount is not None:
+            currency = operation_amount.get("currency")
+            if currency is not None and currency.get("name") == name:
+                yield transaction
 
 
-def transaction_descriptions(transactions_list):
+def transaction_descriptions(transactions_list: Any) -> Any:
     """Функция выдает описание операций"""
     description_of_transactions = ""
     for transact in transactions_list:
@@ -21,7 +24,7 @@ def transaction_descriptions(transactions_list):
         yield transaction
 
 
-def card_number_generator(start: int, end: int) -> str:
+def card_number_generator(start: int, end: int) -> Generator[str, None, None]:
     """Функция генерирует номера карт"""
     for number in range(start, end + 1):
         card_number = str(number)

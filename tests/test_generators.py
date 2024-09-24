@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 
 from src.generators import (
@@ -8,7 +10,7 @@ from src.generators import (
 
 
 @pytest.fixture
-def transaction_list():
+def transaction_list() -> list[dict[str, Any]]:
     return [
         {
             "id": 939719570,
@@ -74,7 +76,7 @@ def transaction_list():
 
 
 @pytest.fixture
-def usd_transaction():
+def usd_transaction() -> list[dict[str, Any]]:
     return [
         {
             "id": 939719570,
@@ -115,12 +117,12 @@ def usd_transaction():
     ]
 
 
-def test_filter_by_currency(transaction_list, usd_transaction):
+def test_filter_by_currency(transaction_list: list[dict[Any, Any]], usd_transaction: list[dict[Any, Any]]) -> None:
     """Функция тестирует выдачу списка операций по названию валюты"""
     assert list(filter_by_currency(transaction_list, "USD")) == usd_transaction
 
 
-def test_transaction_descriptions(transaction_list):
+def test_transaction_descriptions(transaction_list: str) -> Any:
     """Функция тестирует выдачу списка описания операций"""
     des = transaction_descriptions(transaction_list)
     assert next(des) == "Перевод организации"
@@ -130,8 +132,10 @@ def test_transaction_descriptions(transaction_list):
 
 
 @pytest.mark.parametrize("start, end", [(1, 3)])
-def test_card_number_generator(start, end):
-    """Функция тестирует генератор номеров карт"""
+def test_card_number_generator(start: int, end: int) -> None:
+    """
+    Функция тестирует генератор номеров карт
+    """
     gen_number = card_number_generator(start, end)
     assert next(gen_number) == "0000 0000 0000 0001"
     assert next(gen_number) == "0000 0000 0000 0002"

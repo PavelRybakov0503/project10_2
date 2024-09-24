@@ -1,11 +1,12 @@
 from functools import wraps
+from typing import Any, Callable, Optional
 
 
-def log(filename=None):
+def log(filename: Optional[str] = None) -> Callable:
     """Функция-декоратор логирует начало и конец работы функции, результаты и ошибки"""
-    def decorator(my_func):
+    def decorator(my_func: Callable) -> Callable:
         @wraps(my_func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: int, **kwargs: str) -> Any:
             if not filename:
                 print(f"{my_func.__name__} started")
                 try:

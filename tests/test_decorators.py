@@ -1,8 +1,9 @@
+from typing import Any
 from src.decorators import log
 
 
 @log()
-def my_function(x, y):
+def my_function(x: int, y: int) -> float:
     """Делит x на y и возвращает результат.
         Args: x (int): Делимое.
         y (int): Делитель.
@@ -14,7 +15,7 @@ def my_function(x, y):
     return x / y
 
 
-def test_log_print(capsys):
+def test_log_print(capsys: Any) -> Any:
     """Тестирует вывод журнала для успешного выполнения функции.
         Args:
             capsys (Any): Фиксатор для захвата стандартного вывода.
@@ -25,7 +26,7 @@ def test_log_print(capsys):
     assert captured.out == expected_output
 
 
-def test_log_print_try(capsys):
+def test_log_print_try(capsys: Any) -> Any:
     """Тестирует вывод журнала при возникновении ошибки деления на ноль.
         Args: capsys (Any): Фиксатор для захвата стандартного вывода."""
     my_function(10, 0)
@@ -34,7 +35,7 @@ def test_log_print_try(capsys):
     assert captured.out == expected_output
 
 
-def test_log_print_fail(tmp_path):
+def test_log_print_fail(tmp_path: Any) -> None:
     """Тестирует функцию логирования для успешного выполнения.
 
         Args:
@@ -43,7 +44,7 @@ def test_log_print_fail(tmp_path):
     log_file = tmp_path / "test_output.txt"
 
     @log(log_file)
-    def my_function(x, y):
+    def my_function(x: int, y: int) -> Any:
         """Локальная функция для тестирования. Делит x на y."""
         return x / y
     my_function(10, 5)
@@ -65,13 +66,13 @@ def test_log_print_fail(tmp_path):
 #     assert content == "my_function error: division by zero. Inputs: (10, 0), {}"
 
 
-def test_log_print_fail_try(tmp_path):
+def test_log_print_fail_try(tmp_path: Any) -> None:
     """Тестирует функцию логирования при возникновении ошибки деления на ноль."""
     log_file = tmp_path / "test_output.txt"
 
     @log(log_file)
-    def my_function(x, y):
-  #  """Локальная функция для тестирования. Делит x на y."""
+    def my_function(x: int, y: int) -> Any:
+        """Локальная функция для тестирования. Делит x на y."""
         return x / y
 
     try:

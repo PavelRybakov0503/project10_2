@@ -1,22 +1,38 @@
+import json
 import os
-from typing import Any
+from locale import currency
+from typing import Optional
 
 import requests
-from dotenv import load_dotenv
 
-load_dotenv()
 values = os.getenv("PASSWORD")
-keys = os.getenv("API_KEY")
-headers = {keys: values}
 
 
-def currency_conversion(transaction: Any) -> Any:
-    """Функция конвертации"""
-    amout = transaction["operationAmount"]["amount"]
-    code = transaction["operationAmount"]["currency"]["code"]
-    to = "RUB"
-    url = f"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={code}&amount={amout}"
-    payload = {}
-    response = requests.get(url, headers={"apikey": values}, data=payload)
-    result = response.json()
-    return result["result"]
+def currency_conversion(transaction_data: list, API_KEY: Optional[str] = None) -> float:
+    """Функция конвертации       """
+    code = transaction_data[0].get("operationAmount").get("currency").get("code")
+    amount = transaction_data[0].get("operationAmount").get("amount")
+
+    try:
+        if code == "RUB":
+            return float(amount)  # Убедитесь, что возвращаете float
+        elif code in ['USD', 'EUR']:  # Можно использовать in для упрощения
+            url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={currency}&amount={amount}"
+            headers = {"apikey": API_KEY}  # Заголовки использует apikey
+            payload = {
+                "amount": amount,
+                "from": code,
+                "to": "RUB"
+            }
+            response = requests.get(url, headers=headers, params=payload)
+
+            if response.ok:
+                obj = json.loads(response.text)
+                if 'result' in obj:
+                    amount = obj.get("result")
+                    return round(float(amount), 2)  # Убедитесь, что возвращаем float и округляем до 2 знаков
+
+    except Exception as e:  # Лучше выводить информацию об ошибке
+        print(f"Что-то пошло не так: {e}")
+
+    return 0.0  # Возврат float, если что-то не так
