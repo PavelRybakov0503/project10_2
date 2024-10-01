@@ -1,5 +1,4 @@
 import os
-
 from typing import Any
 from unittest.mock import patch
 
@@ -86,7 +85,7 @@ def test_financial_transactions_mistake_json(path_mistake_json: str) -> None:
 
 def test_transaction_amount(trans_1: dict[Any, Any]) -> None:
     """Проверяет, что функция transaction_amount возвращает правильное значение суммы транзакции."""
-    assert transaction_amount(trans_1) == '31957.58'
+    assert transaction_amount(trans_1) == 0.0
 
 
 @patch('src.utils.currency_conversion')

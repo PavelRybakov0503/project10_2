@@ -1,26 +1,30 @@
 import json
+import os
 import logging
 from json import JSONDecodeError
 from typing import Any
 
 from src.external_api import currency_conversion
 
-# logger = logging.getLogger('utils')
+logger = logging.getLogger('utils')
 # logger.setLevel(logging.INFO)
 # file_handler = logging.FileHandler('logs/utils.log')
 # file_formatter = logging.Formatter('%(levelname)s: %(filename)s: %(funcName)s %(lineno)s: %(asctime)s - %(message)s',
 # file_handler.setFormatter(file_handler)
 # logger.addHandler(file_handler)
+#
 
 (logging.basicConfig(
     level=logging.INFO,
     format="%(levelname)s: %(filename)s: %(funcName)s %(lineno)s: %(asctime)s - %(message)s",
     filename="../logs/utils_log.log",
     filemode="w",))
-utils_logger = logging.getLogger("utils")
+utils_logger = logging.getLogger('utils')
 
 financial_transactions_logger = logging.getLogger()
 transaction_amount_logger = logging.getLogger()
+
+PATH_TO_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "operations.json")
 
 
 def financial_transactions(path: str) -> list:
