@@ -2,23 +2,26 @@ from unittest.mock import mock_open, patch
 
 import pandas as pd
 import pytest
-
+from pandas import DataFrame
 from src.reading_csv_excel import read_operations_from_csv, read_operations_from_excel
 
 
 @pytest.fixture
-def mock_csv_data() -> str:
+def mock_csv_data() -> None:
     return
-"""id;state;date;amount;currency_name;currency_code;from;to;description
-    650703;EXECUTED;2023-09-05T11:30:32Z;16210;Sol;PEN;Счет 58803664561298323391;
+
+
+"""
+    id;state;date;amount;currency_name;currency_code;from;to;description 650703;
+    EXECUTED;2023-09-05T11:30:32Z;16210;Sol;PEN;Счет 58803664561298323391;
     Счет 39745660563456619397;Перевод организации 3598919;EXECUTED;
     2020-12-06T23:00:58Z;29740;Peso;COP;Discover 3172601889670065;
     Discover 0720428384694643;Перевод с карты на карту
-    """
+"""
 
 
 @pytest.fixture
-def mock_excel_data():
+def mock_excel_data() -> DataFrame:
     data = {
         'id': ['650703'],
         'state': ['EXECUTED'],
